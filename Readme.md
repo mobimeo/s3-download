@@ -1,4 +1,4 @@
-EC2-S3-Download
+S3 Download
 ===
 
 About
@@ -23,5 +23,5 @@ Go 1.5+ on OSX targetting linux:
 
 ```
 go get -u github.com/aws/aws-sdk-go
-GOOS=linux go build ec2-s3-download.go
+GOOS=linux go build s3-download.go
 ```
