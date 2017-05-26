@@ -7,11 +7,10 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"io"
 	"os"
-	"path"
 )
 
 var bucket string
-var filePath string
+var objectPath string
 var destPath string
 var region string
 
@@ -24,6 +23,11 @@ func retrieveFile(key string, bucket string, region string, destPath string) err
 	}
 
 	defer res.Body.Close()
+	if destPath == "" {
+		io.Copy(os.Stdout, res.Body)
+		return nil
+	}
+
 	outFile, err := os.Create(destPath)
 	if err != nil {
 		return err
@@ -37,20 +41,16 @@ func retrieveFile(key string, bucket string, region string, destPath string) err
 func main() {
 	flag.StringVar(&bucket, "bucket", os.Getenv("S3_BUCKET"), "s3 bucket")
 	flag.StringVar(&region, "region", os.Getenv("S3_REGION"), "aws region")
-	flag.StringVar(&filePath, "file-path", os.Getenv("S3_FILE_PATH"), "object path (w/o bucket)")
+	flag.StringVar(&objectPath, "object-path", os.Getenv("S3_FILE_PATH"), "object path (w/o bucket)")
 	flag.StringVar(&destPath, "dest-path", os.Getenv("S3_DEST_PATH"), "destination path (optional)")
 	flag.Parse()
 
-	if destPath == "" {
-		_, destPath = path.Split(filePath)
-	}
-
-	if bucket == "" || filePath == "" || region == "" {
+	if bucket == "" || objectPath == "" || region == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
-	err := retrieveFile(filePath, bucket, region, destPath)
+	err := retrieveFile(objectPath, bucket, region, destPath)
 	if err != nil {
 		panic(err)
 	}

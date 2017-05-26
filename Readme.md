@@ -9,11 +9,11 @@ A simple tool to download objects from S3 on EC2 instances. It was written to re
 Usage
 ==
 
-Arguments can be substituted with env variables (arguments prefixed by `S3_`, dashes are replaced by underscores).
+Arguments can be substituted with env variables (arguments prefixed by `S3_`, dashes are replaced by underscores). When a destination path is not provided the retrieved object will be written to stdout.
 
 ```
-./ec2-s3-download -bucket mybucket -file-path somefile.txt -dest-path=/opt/somefile.txt -region eu-central-1
-S3_REGION=eu-central-1 ./ec2-s3-download -bucket mybucket -file-path somefile.txt -dest-path=/opt/somefile.txt
+./s3-download -bucket mybucket -object-path somefile.txt -dest-path=/opt/somefile.txt -region eu-central-1
+S3_REGION=eu-central-1 ./s3-download -bucket mybucket -file-path somefile.txt -dest-path=/opt/somefile.txt
 ```
 
 Build
