@@ -13,7 +13,7 @@ Arguments can be substituted with env variables (arguments prefixed by `S3_`, da
 
 ```
 ./s3-download -bucket mybucket -object-path somefile.txt -dest-path=/opt/somefile.txt -region eu-central-1
-S3_REGION=eu-central-1 ./s3-download -bucket mybucket -file-path somefile.txt -dest-path=/opt/somefile.txt
+S3_REGION=eu-central-1 ./s3-download -bucket mybucket -object-path somefile.txt -dest-path=/opt/somefile.txt
 ```
 
 Build
