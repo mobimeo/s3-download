@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -15,7 +16,13 @@ var destPath string
 var region string
 
 func retrieveFile(key string, bucket string, region string, destPath string) error {
-	svc := s3.New(session.New(&aws.Config{Region: aws.String(region)}))
+	sess, err := session.NewSession(
+		&aws.Config{Region: aws.String(region)},
+	)
+	if err != nil {
+		return err
+	}
+	svc := s3.New(sess)
 	params := &s3.GetObjectInput{Bucket: aws.String(bucket), Key: aws.String(key)}
 	res, err := svc.GetObject(params)
 	if err != nil {
@@ -52,6 +59,7 @@ func main() {
 
 	err := retrieveFile(objectPath, bucket, region, destPath)
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(1)
 	}
 }
