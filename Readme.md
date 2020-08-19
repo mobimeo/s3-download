@@ -1,6 +1,10 @@
 S3 Download
 ===
 
+Welcome to S3 Download !
+
+This fork is not an official Reach-Now product.
+
 About
 ==
 
